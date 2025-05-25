@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        EMAIL_RECIPIENTS = 'choodyisaac@gmail.com'
+        EMAIL_RECIPIENTS = 's224028935@deakin.edu.au'
     }
 
     stages {
@@ -57,7 +57,6 @@ pipeline {
                             subject: "Jenkins: Security Scan - ${currentBuild.currentResult}",
                             body: "The security scan stage has completed with status: ${currentBuild.currentResult}.",
                             attachmentsPattern: 'audit.log',
-                            compress: false
                         )
                     }
                 }
