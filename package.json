@@ -2,7 +2,7 @@
   "name": "jenkins-pipeline",
   "version": "1.0.0",
   "scripts": {
-    "test": "mocha test",
+    "test": "npx mocha test",
     "coverage": " npx istanbul cover _mocha test"
   },
   "devDependencies": {
