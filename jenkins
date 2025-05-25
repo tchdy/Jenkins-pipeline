@@ -9,7 +9,6 @@ pipeline {
             }
             post {
                 success {
-                    mail to: "choodyisaac@gmail.com",
                     emailext subject: "Run Tests Stage: SUCCESS",
                              body: "Unit and Integration Tests completed successfully.",
                              attachLog: true,
