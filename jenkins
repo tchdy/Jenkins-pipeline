@@ -9,16 +9,16 @@ pipeline {
             }
             post {
                 success {
-                    emailext subject: "Run Tests Stage: SUCCESS",
+                    mail to: "choodyisaac@gmail.com",
+                             emailext subject: "Run Tests Stage: SUCCESS",
                              body: "Unit and Integration Tests completed successfully.",
-                             to: "choodyisaac@gmail.com",
                              attachLog: true,
                              mimeType: 'text/plain'
                 }
                 failure {
-                    emailext subject: "Run Tests Stage: FAILURE",
+                    mail to: "choodyisaac@gmail.com",
+                             emailext subject: "Run Tests Stage: FAILURE",
                              body: "Unit and Integration Tests failed. Check logs for details.",
-                             to: "s224028935@deakin.edu.au",
                              attachLog: true,
                              mimeType: 'text/plain'
                 }
@@ -37,16 +37,16 @@ pipeline {
             }
             post {
                 success {
-                    emailext subject: "Security Scan Stage: SUCCESS",
+                    mail to: "choodyisaac@gmail.com",
+                             emailext subject: "Security Scan Stage: SUCCESS",
                              body: "Security scan completed with no critical vulnerabilities.",
-                             to: "s224028935@deakin.edu.au",
                              attachLog: true,
                              mimeType: 'text/plain'
                 }
                 failure {
-                    emailext subject: "Security Scan Stage: FAILURE",
+                    mail to: "choodyisaac@gmail.com",
+                             emailext subject: "Security Scan Stage: FAILURE",
                              body: "Security scan failed. Vulnerabilities detected. Check logs.",
-                             to: "s224028935@deakin.edu.au",
                              attachLog: true,
                              mimeType: 'text/plain'
                 }
