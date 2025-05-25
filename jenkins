@@ -6,58 +6,54 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/tchdy/Jenkins-pipeline.git'
-            }
-        }
-
         stage('Run Tests') {
             steps {
                 script {
-                    try {
-                        sh 'npm test | tee test.log'
-                        currentBuild.result = 'SUCCESS'
-                    } catch (err) {
-                        currentBuild.result = 'FAILURE'
-                        echo "Tests failed"
-                        throw err
-                    } finally {
-                        emailext(
-                            to: "${EMAIL_RECIPIENTS}",
-                            subject: "Jenkins: Test Stage - ${currentBuild.currentResult}",
-                            body: "The test stage has completed with status: ${currentBuild.currentResult}.",
-                            attachmentsPattern: 'test.log',
-                        )
-                    }
+                    sh 'npm test | tee test.log || exit 1'
+                }
+            }
+            post {
+                success {
+                    emailext subject: "Run Tests Stage: SUCCESS",
+                             body: "Unit and Integration Tests completed successfully.",
+                             to: "s224028935@deakin.edu.au",
+                             attachLog: true,
+                             mimeType: 'text/plain'
+                }
+                failure {
+                    emailext subject: "Run Tests Stage: FAILURE",
+                             body: "Unit and Integration Tests failed. Check logs for details.",
+                             to: "s224028935@deakin.edu.au",
+                             attachLog: true,
+                             mimeType: 'text/plain'
                 }
             }
         }
-
         stage('Generate Coverage Report') {
             steps {
-                sh 'npm run coverage || true'
+                sh 'npm run coverage || exit 1'
             }
         }
-
         stage('Security Scan') {
             steps {
                 script {
-                    try {
-                        sh 'npm audit | tee audit.log || exit 0'
-                        currentBuild.result = 'SUCCESS'
-                    } catch (err) {
-                        currentBuild.result = 'FAILURE'
-                        echo "Security audit failed"
-                        throw err
-                    } finally {
-                        emailext(
-                            to: "${EMAIL_RECIPIENTS}",
-                            subject: "Jenkins: Security Scan - ${currentBuild.currentResult}",
-                            body: "The security scan stage has completed with status: ${currentBuild.currentResult}.",
-                            attachmentsPattern: 'audit.log',
-                        )
-                    }
+                    sh 'npm audit | tee audit.log'
+                }
+            }
+            post {
+                success {
+                    emailext subject: "Security Scan Stage: SUCCESS",
+                             body: "Security scan completed with no critical vulnerabilities.",
+                             to: "s224028935@deakin.edu.au",
+                             attachLog: true,
+                             mimeType: 'text/plain'
+                }
+                failure {
+                    emailext subject: "Security Scan Stage: FAILURE",
+                             body: "Security scan failed. Vulnerabilities detected. Check logs.",
+                             to: "s224028935@deakin.edu.au",
+                             attachLog: true,
+                             mimeType: 'text/plain'
                 }
             }
         }

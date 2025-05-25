@@ -1,16 +1,12 @@
 {
   "name": "jenkins-pipeline",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test",
+    "coverage": "istanbul cover _mocha test"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "devDependencies": {
-    "istanbul": "^0.4.5",
-    "mocha": "^11.5.0"
+    "mocha": "^10.0.0",
+    "istanbul": "^0.4.5"
   }
 }
