@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:lts'
-        }
-    }
+    agent any
 
     environment {
         EMAIL_RECIPIENTS = 's224028935@deakin.edu.au'
