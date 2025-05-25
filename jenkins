@@ -1,35 +1,79 @@
 pipeline {
     agent any
+
+    environment {
+        EMAIL_RECIPIENTS = 's224028935@deakin.au.edu'
+    }
+
     stages {
-        stage("Build") {
+        stage('Checkout') {
             steps {
-                echo "Building ..."
+                git branch: 'main', url: 'https://github.com/tchdy/8.2CDevSecOps.git'
             }
-            post {
-                always {
-                    mail to: "choodyisaac@gmail.com",
-                         subject: "Build Status Email",
-                         body: "Build log attached!"
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    try {
+                        sh 'npm test > test.log'
+                        currentBuild.result = 'SUCCESS'
+                    } catch (err) {
+                        currentBuild.result = 'FAILURE'
+                        echo "Test failed"
+                        throw err
+                    } finally {
+                        emailext (
+                            to: "${EMAIL_RECIPIENTS}",
+                            subject: "Test Stage - ${currentBuild.currentResult}",
+                            body: "Please find the test results attached.",
+                            attachmentsPattern: '**/test.log',
+                            compress: false
+                        )
+                    }
                 }
             }
         }
 
-        stage("Test") {
+        stage('Generate Coverage Report') {
             steps {
-                echo "Testing ..."
+                sh 'npm run coverage || true'
             }
         }
 
-        stage("Deploy") {
+        stage('Security Scan') {
             steps {
-                echo "Deploying ..."
+                script {
+                    try {
+                        sh 'npm audit > audit.log || exit 0'
+                        currentBuild.result = 'SUCCESS'
+                    } catch (err) {
+                        currentBuild.result = 'FAILURE'
+                        echo "Security scan failed"
+                        throw err
+                    } finally {
+                        emailext (
+                            to: "${EMAIL_RECIPIENTS}",
+                            subject: "Security Scan Stage - ${currentBuild.currentResult}",
+                            body: "Please find the security scan results attached.",
+                            attachmentsPattern: '**/audit.log',
+                            compress: false
+                        )
+                    }
+                }
             }
         }
+    }
 
-        stage("complete") {
-            steps {
-                echo "Completed ..."
-            }
+    post {
+        always {
+            echo 'Pipeline completed.'
         }
     }
 }
