@@ -10,14 +10,14 @@ pipeline {
             post {
                 success {
                     mail to: "choodyisaac@gmail.com",
-                             emailext subject: "Run Tests Stage: SUCCESS",
+                    emailext subject: "Run Tests Stage: SUCCESS",
                              body: "Unit and Integration Tests completed successfully.",
                              attachLog: true,
                              mimeType: 'text/plain'
                 }
                 failure {
                     mail to: "choodyisaac@gmail.com",
-                             emailext subject: "Run Tests Stage: FAILURE",
+                    emailext subject: "Run Tests Stage: FAILURE",
                              body: "Unit and Integration Tests failed. Check logs for details.",
                              attachLog: true,
                              mimeType: 'text/plain'
