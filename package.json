@@ -2,8 +2,8 @@
   "name": "jenkins-pipeline",
   "version": "1.0.0",
   "scripts": {
-    "test": "mocha test",
-    "coverage": "istanbul cover _mocha test"
+    "test": "npx mocha test",
+    "coverage": " npx istanbul cover _mocha test"
   },
   "devDependencies": {
     "istanbul": "^0.4.5",

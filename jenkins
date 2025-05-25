@@ -1,15 +1,10 @@
 pipeline {
     agent any
-
-    environment {
-        EMAIL_RECIPIENTS = 's224028935@deakin.edu.au'
-    }
-
     stages {
         stage('Run Tests') {
             steps {
                 script {
-                    sh 'npm test | tee test.log || exit 1'
+                    sh 'mocha test | tee test.log || exit 1'
                 }
             }
             post {
@@ -31,7 +26,7 @@ pipeline {
         }
         stage('Generate Coverage Report') {
             steps {
-                sh 'npm run coverage || exit 1'
+                sh 'istanbul cover _mocha test || exit 1'
             }
         }
         stage('Security Scan') {
@@ -58,10 +53,9 @@ pipeline {
             }
         }
     }
-
     post {
         always {
-            echo 'Pipeline execution finished.'
+            echo "Pipeline execution finished."
         }
     }
 }
