@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "test": "mocha test",
-    "coverage": "istanbul cover _mocha test"
+    "coverage": " npx istanbul cover _mocha test"
   },
   "devDependencies": {
     "mocha": "^10.0.0",
