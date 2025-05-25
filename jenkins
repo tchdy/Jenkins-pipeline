@@ -11,14 +11,14 @@ pipeline {
                 success {
                     emailext subject: "Run Tests Stage: SUCCESS",
                              body: "Unit and Integration Tests completed successfully",
-                             mail to: "choodyisaac@gmail.com",
+                             to: "choodyisaac@gmail.com",
                              attachLog: true,
                              mimeType: 'text/plain'
                 }
                 failure {
                     emailext subject: "Run Tests Stage: FAILURE",
                              body: "Unit and Integration Tests failed. Check logs for details.",
-                             mail to: "choodyisaac@gmail.com",
+                             to: "choodyisaac@gmail.com",
                              attachLog: true,
                              mimeType: 'text/plain'
                 }
@@ -39,14 +39,14 @@ pipeline {
                 success {
                     emailext subject: "Security Scan Stage: SUCCESS",
                              body: "Security scan completed with no critical vulnerabilities.",
-                             mail to: "choodyisaac@gmail.com",
+                             to: "choodyisaac@gmail.com",
                              attachLog: true,
                              mimeType: 'text/plain'
                 }
                 failure {
                     emailext subject: "Security Scan Stage: FAILURE",
                              body: "Security scan failed. Vulnerabilities detected. Check logs.",
-                             mail to: "choodyisaac@gmail.com",
+                             to: "choodyisaac@gmail.com",
                              attachLog: true,
                              mimeType: 'text/plain'
                 }
