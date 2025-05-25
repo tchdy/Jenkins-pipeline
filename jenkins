@@ -28,7 +28,6 @@ pipeline {
                             subject: "Jenkins: Test Stage - ${currentBuild.currentResult}",
                             body: "The test stage has completed with status: ${currentBuild.currentResult}.",
                             attachmentsPattern: 'test.log',
-                            compress: false
                         )
                     }
                 }
