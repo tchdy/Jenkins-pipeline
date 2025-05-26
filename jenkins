@@ -11,7 +11,7 @@ pipeline {
                 success {
                     emailext subject: "Run Tests Stage: SUCCESS",
                              body: "Unit and Integration Tests completed successfully",
-                             to: "choodyisaac@gmail.com",
+                             to: "s224028935@deakin.edu.au",
                              attachLog: true,
                              mimeType: 'text/plain'
                 }
